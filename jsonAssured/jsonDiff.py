@@ -7,7 +7,11 @@
 # @Software: PyCharm
 import yaml
 import os
-from jsondiff.jsonPathGenerator import *
+from jsonAssured.jsonPathGenerator import *
+import sys
+import codecs
+import json
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 
 class JsonPathDiff:
@@ -35,24 +39,34 @@ class JsonPathDiff:
             ignore = []
 
         if is_allflag:
+            print("————————————————开始进行全量比对——————————————————")
             self.all_jsonpath = self.json_generator.get_json_path(self.source, ignore=ignore, isall=True)
             result = self.json_diff_allpath(self.source, self.target, self.all_jsonpath)
-            print(result)
+            print("————————————————全量比对完成——————————————————")
+            for index, res in enumerate(result):
+                print("error-{}: {}".format(index, res))
         else:
+            print("————————————————开始进行字段比对——————————————————")
             keymapping = self.config["keyMappings"]
             key_mapping = []
             for item in keymapping:
                 key_mapping.append([item["source"], item["target"]])
-            print(key_mapping)
+            print("————————————————获取比对字段mapping——————————————————")
+            for item in key_mapping:
+                print(item)
             # 写入yaml文件
             if "keyJsonPathMappings" not in self.config:
+                print("————————————————获取字段jsonpath mapping——————————————————")
                 mappings = self.json_generator.get_jsonpath_mapping(self.source, self.target, key_mapping)
+                print(json.dumps(mappings, indent=4, separators=(', ', ': ')))
                 self.config["keyJsonPathMappings"] = mappings
                 with open(self.config_path, 'w', encoding='utf-8') as f:
                     yaml.dump(self.config, f)
                 self.get_config()
             result = self.json_diff_keypath(self.source, self.target, self.config["keyJsonPathMappings"])
-            print(result)
+            print("————————————————字段比对完成——————————————————")
+            for index, res in enumerate(result):
+                print("error-{}: {}".format(index, res))
 
     def get_config(self):
         """
@@ -60,11 +74,13 @@ class JsonPathDiff:
         :param config_path: mapping配置文件路径
         :return:
         """
+        print("————————————————————开始读取mapping配置————————————————————")
         if os.path.exists(self.config_path):
             with open(self.config_path, "r", encoding="utf-8") as f:
                 config = yaml.load(f, Loader=yaml.Loader)
                 self.config = config
-                print(config)
+                print("mapping文件读取成功")
+                print(json.dumps(config, indent=4, separators=(', ', ': ')))
         else:
             print("路径:{}错误，未找到该mapping文件".format(self.config_path))
 
@@ -142,19 +158,24 @@ class JsonPathDiff:
     def get_all_key_jsonpath(self, json_str):
         pass
 
+def main():
+    config_path = sys.argv[1]
+    source_path = sys.argv[2]
+    target_path = sys.argv[3]
+
+    jsonAssured = JsonPathDiff(config_path, source_path, target_path)
+    jsonAssured.jsondiff_run()
+
 
 if __name__ == '__main__':
 
     # mapping_path = "/Users/bjhl/Desktop/code/py-rest-assured/mapping.yaml"
     # source_path = "/Users/bjhl/Desktop/code/py-rest-assured/source.json"
     # target_path = "/Users/bjhl/Desktop/code/py-rest-assured/target_all.json"
-    # jsondiff = JsonPathDiff(mapping_path, source_path, target_path)
-    # res = jsondiff.json_diff(soure_str, target_str, path_mappings)
+    # jsonAssured = JsonPathDiff(mapping_path, source_path, target_path)
+    # res = jsonAssured.json_diff(soure_str, target_str, path_mappings)
     # print(res)
 
-    # jsondiff.jsondiff_run()
-
-    import sys
-    data = sys.argv[1:]
-    print(data)
+    # jsonAssured.jsondiff_run()
+   main()
 

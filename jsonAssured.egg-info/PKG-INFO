@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: jsonAssured
+Version: 0.0.2
+Summary: diff json data by jsonpath
+Home-page: https://github.com/lcyfly/JsonDiff.git
+Author: lcy815
+Author-email: 252624008@qq.com
+License: UNKNOWN
+Description: json path generator, json diff
+Keywords: pip,jsonAssured,jsonpath
+Platform: any

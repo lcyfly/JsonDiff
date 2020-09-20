@@ -6,13 +6,16 @@
 # @Dream: NO BUG
 
 from setuptools import setup, find_packages
+import sys
+import codecs
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 setup(
-    name="jsondiff",
+    name="jsonAssured",
 
-    version="0.0.1",
+    version="0.0.2",
 
-    keywords=("pip", "jsondiff", "jsonpath"),
+    keywords=("pip", "jsonAssured", "jsonpath"),
 
     description="diff json data by jsonpath",
 
@@ -33,7 +36,7 @@ setup(
     scripts=[],
     entry_points={
         'console_scripts': [
-            'jsondiff=jsondiff.jsonDiff:main'
+            'jsonAssured=jsonAssured.jsonDiff:main'
         ]
     },
 )
