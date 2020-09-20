@@ -145,12 +145,16 @@ class JsonPathDiff:
 
 if __name__ == '__main__':
 
-    mapping_path = "/Users/bjhl/Desktop/code/py-rest-assured/mapping.yaml"
-    source_path = "/Users/bjhl/Desktop/code/py-rest-assured/source.json"
-    target_path = "/Users/bjhl/Desktop/code/py-rest-assured/target_all.json"
-    jsondiff = JsonPathDiff(mapping_path, source_path, target_path)
+    # mapping_path = "/Users/bjhl/Desktop/code/py-rest-assured/mapping.yaml"
+    # source_path = "/Users/bjhl/Desktop/code/py-rest-assured/source.json"
+    # target_path = "/Users/bjhl/Desktop/code/py-rest-assured/target_all.json"
+    # jsondiff = JsonPathDiff(mapping_path, source_path, target_path)
     # res = jsondiff.json_diff(soure_str, target_str, path_mappings)
     # print(res)
 
-    jsondiff.jsondiff_run()
+    # jsondiff.jsondiff_run()
+
+    import sys
+    data = sys.argv[1:]
+    print(data)
 

@@ -28,5 +28,12 @@ setup(
 
     platforms="any",
 
-    install_requires=["pyyaml", "jsonpath"]
+    install_requires=["pyyaml", "jsonpath"],
+
+    scripts=[],
+    entry_points={
+        'console_scripts': [
+            'jsondiff=jsondiff.jsonDiff:main'
+        ]
+    },
 )
